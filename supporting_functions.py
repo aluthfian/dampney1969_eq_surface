@@ -394,27 +394,26 @@ def grav_at_planar_surf(grav_data_loc, mass_array, grid_mass_centres, eq_surface
     The x, y coordinate of this masses is given by grid_mass_centres.
     The z-axis of eq_surface_elev is POSITIVE UPWARD.
     Gridding resolution is set by grid_res, if grid_res=0
-    then the gridding resolution equals the average data spacing.
+    then the gridding resolution equals the 50*np.round(average data spacing/100).
     Height of the gridding plane should be higher than the maximum
     data elevation. If height_from_max_data_elev=1e+6, then the gridding level
     will be set to equal to max. data elevation plus 100.
     """
     
     if grid_res == 0:
-        grid_res, _ = calculate_average_gravity_spacing(grav_data_loc, method='2d', use_z=False)
-    
-    # Use fixed grid spacing (as in original)
-    round_avg_gridSpacing = 50*np.round(grid_res/100)
-    #round_avg_gridSpacing = 10000
+        avg_grav_spacing, _ = calculate_average_gravity_spacing(grav_data_loc, method='2d', use_z=False)
+        grid_res = 50*np.round(avg_grav_spacing/100)
+    elif grid_res < 0:
+        raise ValueError('Positive grid resolutions only!')
     
     # Calculate grid bounds
-    x_min = round_avg_gridSpacing * np.floor((grav_data_loc[:,0].min() - round_avg_gridSpacing) / round_avg_gridSpacing)
-    x_max = round_avg_gridSpacing * np.ceil((grav_data_loc[:,0].max() + round_avg_gridSpacing) / round_avg_gridSpacing)
-    y_min = round_avg_gridSpacing * np.floor((grav_data_loc[:,1].min() - round_avg_gridSpacing) / round_avg_gridSpacing)
-    y_max = round_avg_gridSpacing * np.ceil((grav_data_loc[:,1].max() + round_avg_gridSpacing) / round_avg_gridSpacing)
+    x_min = grid_res * np.floor((grav_data_loc[:,0].min() - grid_res) / grid_res)
+    x_max = grid_res * np.ceil((grav_data_loc[:,0].max() + grid_res) / grid_res)
+    y_min = grid_res * np.floor((grav_data_loc[:,1].min() - grid_res) / grid_res)
+    y_max = grid_res * np.ceil((grav_data_loc[:,1].max() + grid_res) / grid_res)
     
-    x_grid = np.arange(x_min, x_max + round_avg_gridSpacing, round_avg_gridSpacing)
-    y_grid = np.arange(y_min, y_max + round_avg_gridSpacing, round_avg_gridSpacing)
+    x_grid = np.arange(x_min, x_max + grid_res, grid_res)
+    y_grid = np.arange(y_min, y_max + grid_res, grid_res)
     X_gridded, Y_gridded = np.meshgrid(x_grid, y_grid)
     grid_pixel_centres = np.vstack([X_gridded.ravel(), Y_gridded.ravel()]).T
     
