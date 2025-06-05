@@ -7522,11 +7522,13 @@ a.anchor-link {
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">CRS</span><span class="p">,</span> <span class="n">Transformer</span>
 <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">constants</span>
-<span class="c1"># only the non-negative least square (NNLS) algorithm works well here</span>
+<span class="c1"># only the non-negative least square (NNLS) algorithm works well here.</span>
 <span class="c1"># NNLS algorithm produce the least RMSE compared to cvxpy</span>
 <span class="c1"># numpy.linalg, and scipy.linalg, while also</span>
 <span class="c1"># produces sensible equivalent masses and</span>
-<span class="c1"># resultant gridded gravity anomaly at the planar surface</span>
+<span class="c1"># resultant gridded gravity anomaly at the planar surface.</span>
+<span class="c1"># The best thing about NNLS is it can work</span>
+<span class="c1"># with any shape of "A's" in the b = Ax system</span>
 <span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">nnls</span>
 <span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="kn">import</span> <span class="n">Point</span><span class="p">,</span> <span class="n">MultiPolygon</span><span class="p">,</span> <span class="n">Polygon</span>  <span class="c1"># For handling alpha shape</span>
 <span class="kn">from</span> <span class="nn">SimPEG</span> <span class="kn">import</span> <span class="n">utils</span> <span class="k">as</span> <span class="n">simpeg_utils</span>
@@ -8042,7 +8044,7 @@ a_{K1} &amp; a_{K2} &amp; \dots &amp; a_{KN} \\
 \end{bmatrix} \tag{6}$$</p>
 <p>and each $a_{ij} = \left\{a_{11}, a_{12}, \dots, a_{1N}, a_{21}, a_{22}, \dots, a_{KN} \right\}$ in $\mathbf{A}$ equals</p>
 <p>$$a_{ij} = \frac{K\times\left(z_{i}-h\right)}{\left\{\left(x_{i}-\alpha_{j}\right)^{2} + \left(y_{i}-\beta_{j}\right)^{2} + \left(z_{i}-h\right)^{2}\right\}^{3/2}}. \tag{7}$$</p>
-<h2 id="The-Equivalent-Surface-Elevation,-eq_surface_elev">The Equivalent Surface Elevation, <code>eq_surface_elev</code><a class="anchor-link" href="#The-Equivalent-Surface-Elevation,-eq_surface_elev">¶</a></h2><p>Dampney (1969) put a condition where the flat equivalent mass surface can be put below the gravity surveying level. In ground surveys, the condition put out by Dampney (1969) also means the range where the flat equivalent mass surface can be put under the topography. The conditions described below is tied to the average gravity data spacing $\Delta x$.</p>
+<h2 id="The-Equivalent-Surface-Elevation,-eq_surface_elev">The Equivalent Surface Elevation, <code>eq_surface_elev</code><a class="anchor-link" href="#The-Equivalent-Surface-Elevation,-eq_surface_elev">¶</a></h2><p>Dampney (1969) put a condition where the flat equivalent mass surface can be put below the gravity surveying level. In ground surveys, the condition put out by Dampney (1969) also means the range where the flat equivalent mass surface can be laid under the topography. The conditions described below is tied to the average gravity data spacing $\Delta x$.</p>
 <p>$$2.5\Delta x&lt;\left(z_{i}-h\right)&lt;6\Delta x. \tag{8}$$</p>
 <p>The original Dampney (1969) formulation puts $\left(h - z_{i}\right)$, because in his coordinate system, the level of equivalent layer is numerically larger/more positive than the topography.</p>
 <p>We all understand that topographic surface is uneven. Then, Dampney (1969) gives this condition implicitly:</p>
@@ -8070,8 +8072,8 @@ until the condition of $\mathrm{max}\left(z\right)-\mathbf{b}\Delta x&lt;\mathrm
 <h1 id="Searching-for-Suitable-Mass-Array-$%5Cmathbf%7Bm%7D$">Searching for Suitable Mass Array $\mathbf{m}$<a class="anchor-link" href="#Searching-for-Suitable-Mass-Array-$%5Cmathbf%7Bm%7D$">¶</a></h1><p>To this aim, we want to minimise the $\ell^2$<a href="https://mathworld.wolfram.com/L2-Norm.html">-norm</a> $\left|\mathbf{A}\mathbf{m}-\mathbf{g} \right|_2$. However, $\mathbf{g}$ contains negative values, which may result in some negative values in $\mathbf{m}$, too. While this will be fine in MATLAB, I found it problematic in Python because the presence of negative masses in $\mathbf{m}$ makes the modelled gravity values extremely sensitive to the gravity anomaly gridding level. To ensure $\mathbf{g}$ (and $\mathbf{m}$) contains only zeroes and positive values, I first shifted the gravity data by subtracting the minimum gravity anomaly value from them.</p>
 <p><code>grav_data_anom_nonNeg = (grav_data_anom-grav_data_anom.min())</code></p>
 <p>$$\mathbf{g}_{\;(nonNeg)} = \mathbf{g}-\mathrm{min}\left(\mathbf{g}\right). \tag{9}$$</p>
-<p>Then, I use <code>scipy.optimize.nnls</code> to <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.nnls.html">minimise</a> the $\left|\mathbf{A}\mathbf{m}-\mathbf{g}_{nonNeg} \right|_2$ without negative masses in $\mathbf{m}$. The resulting mass, when plugged back into the minimised equation, gives an RMSE of 4.4 mGal, good enough for progressing further! The relationship between the RMSE and the $\ell^2$<a href="https://mathworld.wolfram.com/L2-Norm.html">-norm</a> is as follows.</p>
-<p>$$\mathrm{RMSE\;(data\;unit)} = \sqrt{\frac{1}{K}\sum_{i=0}^{K}{\left\{\sum_{j=0}^{N}{\left(a_{ij}m_{j}\right)}-g_{i\;(nonNeg)}\right\}^2}} = \frac{\left | \mathbf{Am}-\mathbf{g}\right |_2}{\sqrt{K}}. \tag{10}$$</p>
+<p>Then, I use <code>scipy.optimize.nnls</code> to <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.nnls.html">minimise</a> the $\left|\mathbf{A}\mathbf{m}-\mathbf{g}_{\;(nonNeg)} \right|_2$ without negative masses in $\mathbf{m}$. The resulting mass, when plugged back into the minimised equation, gives an RMSE of 4.4 mGal, good enough for progressing further! The relationship between the RMSE and the $\ell^2$<a href="https://mathworld.wolfram.com/L2-Norm.html">-norm</a> is as follows.</p>
+<p>$$\mathrm{RMSE\;(data\;unit)} = \sqrt{\frac{1}{K}\sum_{i=0}^{K}{\left\{\sum_{j=0}^{N}{\left(a_{ij}m_{j}\right)}-g_{i\;(nonNeg)}\right\}^2}} = \frac{\left | \mathbf{Am}-\mathbf{g}_{\;(nonNeg)}\right |_2}{\sqrt{K}}. \tag{10}$$</p>
 <p>RMSE equals the $\ell^2$-norm divided by square root of $K$, the number of gravity data. Meanwhile, $N$ is the number of masses involved in the calculation above.</p>
 </div>
 </div>
@@ -8164,7 +8166,7 @@ Computing gridding A matrix vectorized: 31960 x 1720
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Finding-the-Survey-Boundary-Using-the-alphashape">Finding the Survey Boundary Using the <code>alphashape</code><a class="anchor-link" href="#Finding-the-Survey-Boundary-Using-the-alphashape">¶</a></h1><p>Please modify the <code>alpha</code> <a href="https://alphashape.readthedocs.io/en/latest/alphashape.html#module-alphashape">value</a> in the <code>supportfuncs.compute_alphashape_from_pts</code> function. The value of <code>alpha</code> is a real value. A value of <code>alpha=0</code> or less will return the convex hull boundary of the gravity data collection. Higher <code>alpha</code> will make the boundary tighter and tighter until no area is left at a very high <code>alpha</code> value. This boundary will be used to filter/mask out the gridded gravity data outside the original data extent/survey boundary.</p>
+<h1 id="Finding-the-Survey-Boundary-Using-the-alphashape">Finding the Survey Boundary Using the <code>alphashape</code><a class="anchor-link" href="#Finding-the-Survey-Boundary-Using-the-alphashape">¶</a></h1><p>Please modify the <code>alpha</code> <a href="https://alphashape.readthedocs.io/en/latest/alphashape.html#module-alphashape">value</a> in the <code>supportfuncs.compute_alphashape_from_pts</code> function. The value of <code>alpha</code> is a real number. If <code>alpha=0</code> or less, <code>supportfuncs.compute_alphashape_from_pts</code> will return the convex hull boundary of the gravity data collection. Higher <code>alpha</code> will make the boundary tighter and tighter until no area is left at a very high <code>alpha</code> value. This boundary will be used to filter/mask out the gridded gravity data outside the original data extent/survey boundary.</p>
 </div>
 </div>
 </div>
