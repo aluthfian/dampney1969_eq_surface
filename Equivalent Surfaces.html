@@ -7757,7 +7757,7 @@ CSV columns: ['Easting_M', 'Northing_M', 'Bouguer_anom', 'ELEV_M']
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=df71eda8-e911-425f-aa86-aeac1bb3eb4b">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=df71eda8-e911-425f-aa86-aeac1bb3eb4b">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7774,138 +7774,8 @@ CSV columns: ['Easting_M', 'Northing_M', 'Bouguer_anom', 'ELEV_M']
 <span class="n">grav_data</span><span class="p">[</span><span class="s2">"SRGI_UTM49S_X"</span><span class="p">]</span> <span class="o">=</span> <span class="n">grav_data</span><span class="p">[</span><span class="s2">"SRGI_UTM49S_X"</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># round to two digit behind the dot</span>
 <span class="n">grav_data</span><span class="p">[</span><span class="s2">"SRGI_UTM49S_Y"</span><span class="p">]</span> <span class="o">=</span> <span class="n">grav_data</span><span class="p">[</span><span class="s2">"SRGI_UTM49S_Y"</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># round to two digit behind the dot</span>
 <span class="n">grav_data</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span>
+<span class="n">grav_data</span><span class="p">[[</span><span class="s1">'SRGI_UTM49S_X'</span><span class="p">,</span> <span class="s1">'SRGI_UTM49S_Y'</span><span class="p">,</span> <span class="s1">'ELEV_M'</span><span class="p">,</span> <span class="s1">'Bouguer_anom'</span><span class="p">]]</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">'SRGI13_grav_jateng_with_elev.csv'</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[4]:</div>
-<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
-<div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th></th>
-<th>Easting_M</th>
-<th>Northing_M</th>
-<th>Bouguer_anom</th>
-<th>ELEV_M</th>
-<th>SRGI_UTM49S_X</th>
-<th>SRGI_UTM49S_Y</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>0</th>
-<td>673421.02</td>
-<td>9225926.83</td>
-<td>-0.96</td>
-<td>28.059452</td>
-<td>342051.56</td>
-<td>9225901.95</td>
-</tr>
-<tr>
-<th>1</th>
-<td>665820.11</td>
-<td>9224490.55</td>
-<td>-3.85</td>
-<td>25.727678</td>
-<td>334459.34</td>
-<td>9224417.04</td>
-</tr>
-<tr>
-<th>2</th>
-<td>668189.38</td>
-<td>9224044.22</td>
-<td>-3.59</td>
-<td>23.324348</td>
-<td>336831.67</td>
-<td>9223985.84</td>
-</tr>
-<tr>
-<th>3</th>
-<td>670717.39</td>
-<td>9223664.24</td>
-<td>-2.08</td>
-<td>17.567015</td>
-<td>339362.27</td>
-<td>9223622.02</td>
-</tr>
-<tr>
-<th>4</th>
-<td>668268.19</td>
-<td>9221916.96</td>
-<td>-1.32</td>
-<td>26.770287</td>
-<td>336924.12</td>
-<td>9221858.97</td>
-</tr>
-<tr>
-<th>5</th>
-<td>665798.77</td>
-<td>9219004.94</td>
-<td>-3.23</td>
-<td>158.889557</td>
-<td>334473.21</td>
-<td>9218930.88</td>
-</tr>
-<tr>
-<th>6</th>
-<td>668771.52</td>
-<td>9217161.34</td>
-<td>0.32</td>
-<td>123.148232</td>
-<td>337458.09</td>
-<td>9217106.34</td>
-</tr>
-<tr>
-<th>7</th>
-<td>668448.82</td>
-<td>9219681.72</td>
-<td>1.52</td>
-<td>85.726646</td>
-<td>337119.12</td>
-<td>9219624.77</td>
-</tr>
-<tr>
-<th>8</th>
-<td>666217.35</td>
-<td>9215571.00</td>
-<td>2.14</td>
-<td>164.661774</td>
-<td>334913.99</td>
-<td>9215499.40</td>
-</tr>
-<tr>
-<th>9</th>
-<td>667423.31</td>
-<td>9214128.91</td>
-<td>3.44</td>
-<td>276.940277</td>
-<td>336129.40</td>
-<td>9214065.02</td>
-</tr>
-</tbody>
-</table>
-</div>
 </div>
 </div>
 </div>
@@ -8044,31 +7914,21 @@ a_{K1} &amp; a_{K2} &amp; \dots &amp; a_{KN} \\
 \end{bmatrix} \tag{6}$$</p>
 <p>and each $a_{ij} = \left\{a_{11}, a_{12}, \dots, a_{1N}, a_{21}, a_{22}, \dots, a_{KN} \right\}$ in $\mathbf{A}$ equals</p>
 <p>$$a_{ij} = \frac{K\times\left(z_{i}-h\right)}{\left\{\left(x_{i}-\alpha_{j}\right)^{2} + \left(y_{i}-\beta_{j}\right)^{2} + \left(z_{i}-h\right)^{2}\right\}^{3/2}}. \tag{7}$$</p>
-<h2 id="The-Equivalent-Surface-Elevation,-eq_surface_elev">The Equivalent Surface Elevation, <code>eq_surface_elev</code><a class="anchor-link" href="#The-Equivalent-Surface-Elevation,-eq_surface_elev">¶</a></h2><p>Dampney (1969) put a condition where the flat equivalent mass surface can be put below the gravity surveying level. In ground surveys, the condition put out by Dampney (1969) also means the range where the flat equivalent mass surface can be laid under the topography. The conditions described below is tied to the average gravity data spacing $\Delta x$.</p>
+<h2 id="The-Equivalent-Surface-Elevation,-eq_surface_elev">The Equivalent Surface Elevation, <code>eq_surface_elev</code><a class="anchor-link" href="#The-Equivalent-Surface-Elevation,-eq_surface_elev">¶</a></h2><p>Dampney (1969) gives a condition where the flat equivalent mass surface can be set under the gravity surveying level. In ground surveys, the condition put out by Dampney (1969) also means the range where the flat equivalent mass surface can be laid under the topography. The conditions described below is tied to the average gravity data spacing $\Delta x$.</p>
 <p>$$2.5\Delta x&lt;\left(z_{i}-h\right)&lt;6\Delta x. \tag{8}$$</p>
 <p>The original Dampney (1969) formulation puts $\left(h - z_{i}\right)$, because in his coordinate system, the level of equivalent layer is numerically larger/more positive than the topography.</p>
 <p>We all understand that topographic surface is uneven. Then, Dampney (1969) gives this condition implicitly:</p>
 <blockquote>
 <p>The flat equivalent mass surface should lie at any depth between $\mathrm{min}\left(z\right)-2.5\Delta x$ and $\mathrm{max}\left(z\right)-6\Delta x$ (see Figure 1 below).</p>
 </blockquote>
-<p><img alt="Grey: the range of equivalent mass surface/layer level under the topography as suggested in Dampney (1969). Red line is the median of the upper and lower bound of that range." src="where_eq_surface_can_go.png"/></p>
-<p><strong>Figure 1.</strong> Grey area marks the range of equivalent mass surface/layer level under the topography as suggested in Dampney (1969), red line is midway between the upper and lower bound of that range. The <code>eq_depth_range=[upperBound, lowerBound]</code> array gives out the bounds obeyed by this notebook. This notebook's default gravity data <a href="#Regridding-the-Gravity-Anomaly-at-A-Flat-Surface-Above-the-Topography">gridding level</a> (using the masses at the equivalent surface/level) is marked by the brown line.</p>
 <p>The <code>supportfuncs.Dampney_A</code> function above will increase the multiplication factor (the "6" in the "$6\Delta x$") of the $\mathrm{max}\left(z\right)-6\Delta x$ by 0.5 value increments if it finds that $\mathrm{max}\left(z\right)-6\Delta x\geq\mathrm{min}\left(z\right)-2.5\Delta x,$ i.e., it will try with (see the bolded number)
 $$\mathrm{max}\left(z\right)-\mathbf{6.5}\Delta x,$$ then
 $$\mathrm{max}\left(z\right)-\mathbf{7.0}\Delta x,$$ then
 $$\mathrm{max}\left(z\right)-\mathbf{7.5}\Delta x, \dots$$
 until the condition of $\mathrm{max}\left(z\right)-\mathbf{b}\Delta x&lt;\mathrm{min}\left(z\right)-2.5\Delta x$ is met, $\mathbf{b}$ being the multiplication factor being increased.</p>
+<p><img alt="Grey: the range of equivalent mass surface/layer level under the topography as suggested in Dampney (1969). Red line is the median of the upper and lower bound of that range." src="where_eq_surface_can_go.png"/></p>
+<p><strong>Figure 1.</strong> Grey area marks the range of equivalent mass surface/layer level under the topography as suggested in Dampney (1969), red line is midway between the upper and lower bound of that range. The <code>eq_depth_range=[upperBound, lowerBound]</code> array gives out the bounds obeyed by this notebook. This notebook's default gravity data <a href="#Regridding-the-Gravity-Anomaly-at-A-Flat-Surface-Above-the-Topography">gridding level</a> (using the masses at the equivalent surface/level) is marked by the brown line.</p>
 <p>By default, the <code>supportfuncs.Dampney_A</code> function will put the equivalent mass surface (or layer) halfway between the upper and lower bounds of the flat equivalent mass surface/layer's depth range (see the <span style="color:red">red line</span> in Figure 1). However, users can define their own preferred depth range by passing a value to the <code>eq_surface_elev</code> argument in the <code>supportfuncs.Dampney_A</code> function {e.g., if you want an equivalent layer at -3 km below the mean sea level (the vertical datum depends on the vertical datum of your gravity data and may be different!) then you write <code>supportfuncs.Dampney_A(grav_data_loc, eq_surface_elev=-3000)</code> in your notebook or other development tools (Spyder, VSCode, or others).</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=7889ca10-f744-44a1-ae1d-7bcfd5985559">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h1 id="Searching-for-Suitable-Mass-Array-$%5Cmathbf%7Bm%7D$">Searching for Suitable Mass Array $\mathbf{m}$<a class="anchor-link" href="#Searching-for-Suitable-Mass-Array-$%5Cmathbf%7Bm%7D$">¶</a></h1><p>To this aim, we want to minimise the $\ell^2$<a href="https://mathworld.wolfram.com/L2-Norm.html">-norm</a> $\left|\mathbf{A}\mathbf{m}-\mathbf{g} \right|_2$. However, $\mathbf{g}$ contains negative values, which may result in some negative values in $\mathbf{m}$, too. While this will be fine in MATLAB, I found it problematic in Python because the presence of negative masses in $\mathbf{m}$ makes the modelled gravity values extremely sensitive to the gravity anomaly gridding level. To ensure $\mathbf{g}$ (and $\mathbf{m}$) contains only zeroes and positive values, I first shifted the gravity data by subtracting the minimum gravity anomaly value from them.</p>
 <p><code>grav_data_anom_nonNeg = (grav_data_anom-grav_data_anom.min())</code></p>
 <p>$$\mathbf{g}_{\;(nonNeg)} = \mathbf{g}-\mathrm{min}\left(\mathbf{g}\right). \tag{9}$$</p>
@@ -8123,10 +7983,12 @@ RMSE |A·mass − grav|₂/√(len(grav)): 4.429564181604372  mGal
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Regridding-the-Gravity-Anomaly-at-A-Flat-Surface-Above-the-Topography">Regridding the Gravity Anomaly at A Flat Surface Above the Topography<a class="anchor-link" href="#Regridding-the-Gravity-Anomaly-at-A-Flat-Surface-Above-the-Topography">¶</a></h1><p>Once we have the non-negative masses array $\mathbf{m}$ ready, we can recalculate the gravity anomaly at any flat level above the topography. Gauss' law states that outside the source mass, gravity anomaly satisfies the Laplace's equation $\nabla^{2}\Phi=0$, with $\Phi$ as the gravity potential. The Laplace's equation is prerequisite for the applicability of gridding to interpolate gravity anomaly data, and by extension, this formula prohibits gridding <em>inside</em> the topography. Hence, the flat surface for gridding our gravity data should be at least touching/tangential to the topography or above. The <code>supportfuncs.grav_at_planar_surf</code> function below by default puts the gridding surface 100 m above the highest data point in the survey area ($\approx$ highest topography in some cases, see Figure 1 above). However, users can set the elevation of the gridding surface by setting the <code>height_from_max_data_elev</code>, e.g. if they want to grid it at 2000 m above the highest data elevation, they can write <code>grav_at_planar_surf(grav_data_loc, mass_array, grid_mass_centres, eq_surface_elev, height_from_max_data_elev=2000)</code> in their development tools. Gridding resolution, i.e. the length of the sides of the square pixels in this grid, can be set by passing a positive <strong>non-zero</strong> value into the <code>supportfuncs.grav_at_planar_surf</code> function (e.g., if you want a 1-km = 1000-m grid resolution, you write <code>grav_at_planar_surf(grav_data_loc, mass_array, grid_mass_centres, eq_surface_elev, grid_res=1000)</code> in your development tool). Default grid resolution is as follows.</p>
+<h1 id="Regridding-the-Gravity-Anomaly-at-A-Flat-Surface-Above-the-Topography">Regridding the Gravity Anomaly at A Flat Surface Above the Topography<a class="anchor-link" href="#Regridding-the-Gravity-Anomaly-at-A-Flat-Surface-Above-the-Topography">¶</a></h1><p>Once we have the non-negative masses array $\mathbf{m}$ ready, we can recalculate the gravity anomaly at any flat level above the topography. Gauss' law states that outside the source mass, gravity anomaly satisfies the Laplace's equation $\nabla^{2}\Phi=0$, with $\Phi$ as the gravity potential. The Laplace's equation is prerequisite for the applicability of gridding to interpolate gravity anomaly data, and by extension, this formula prohibits gridding <em>inside</em> the topography. Hence, the flat surface for gridding our gravity data should be at least touching/tangential to the topography or above.</p>
+<p>The <code>supportfuncs.grav_at_planar_surf</code> function below by default puts the gridding surface 100 m above the highest data point in the survey area ($\approx$ highest topography in some cases, see Figure 1 above). However, users can set the elevation of the gridding surface by setting the <code>height_from_max_data_elev</code>, e.g. if they want to grid it at 2000 m above the highest data elevation, they can write <code>grav_at_planar_surf(grav_data_loc, mass_array, grid_mass_centres, eq_surface_elev, height_from_max_data_elev=2000)</code> in their development tools. Gridding resolution, i.e. the length of the sides of the square pixels in this grid, can be set by passing a positive <strong>non-zero</strong> value into the <code>supportfuncs.grav_at_planar_surf</code> function (e.g., if you want a 1-km = 1000-m grid resolution, you write <code>grav_at_planar_surf(grav_data_loc, mass_array, grid_mass_centres, eq_surface_elev, grid_res=1000)</code> in your development tool). Default grid resolution is as follows.</p>
 <p>$$ \mathtt{default\_grid\_res} = 50\times\mathtt{np.round}\left(\frac{\mathtt{average\_gravity\_spacing}}{100}\right). \tag{11}$$</p>
 <p>The function <code>supportfuncs.grav_at_planar_surf</code> calculates $a_{ij}$ in the $\mathbf{A}_{\,gridded}$ by setting the $z_{i} =$ maximum data elevation $+$ <code>height_from_max_data_elev</code> for all grid pixel centres (now $i$ stands for the $i$-th gravity grid pixel). Then, the gridded gravity is calculated by</p>
-<p>$$\mathbf{g}_{\,gridded}=\mathbf{A}_{\,gridded}\;\mathbf{m}. \tag{12}$$</p>
+<p>$$\mathbf{g}_{\,gridded}=\mathbf{A}_{\,gridded}\;\mathbf{m}+\mathrm{min}\left(\mathbf{g}\right). \tag{12}$$</p>
+<p>The $\mathrm{min}\left(\mathbf{g}\right)$ is brought back in (12) so the $\mathbf{g}_{\,gridded}$ has the same zero-anomaly datum with the original gravity anomaly data $\mathbf{g}$.</p>
 </div>
 </div>
 </div>
