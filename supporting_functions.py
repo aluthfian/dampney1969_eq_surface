@@ -133,14 +133,18 @@ def Dampney_A(grav_data_loc, eq_surface_elev=-1e+6):
     grav_data_elev = grav_data_loc[:,2]
     max_multiply_const = 6
     
-    if eq_surface_elev == -1e+6:
-        deepest_upperBound_h = grav_data_elev.min() - 2.5*average_data_spacing
+    deepest_upperBound_h = grav_data_elev.min() - 2.5*average_data_spacing
+    shallowest_lowerBound_h = grav_data_elev.max() - max_multiply_const*average_data_spacing
+
+    # if the shallowest lower boundary of the equivalent mass depth failed to meet
+    # Dampney (1969) condition of 2.5Δx < (h - zi) < 6Δx, then this lower boundary
+    # is pushed down half the average data spacing each time until it is lower than
+    # the deepest upper boundary of the equivalent mass depth.
+    while deepest_upperBound_h <= shallowest_lowerBound_h:
+        max_multiply_const += 0.5
         shallowest_lowerBound_h = grav_data_elev.max() - max_multiply_const*average_data_spacing
-        
-        while deepest_upperBound_h <= shallowest_lowerBound_h:
-            max_multiply_const += 0.5
-            shallowest_lowerBound_h = grav_data_elev.max() - max_multiply_const*average_data_spacing
-        
+    
+    if eq_surface_elev == -1e+6:
         eq_surface_elev = (deepest_upperBound_h + shallowest_lowerBound_h) / 2
     
     # Now we create a meshgrid of surface (yeah Dampney, 1969, says SURFACE not points)
@@ -149,12 +153,12 @@ def Dampney_A(grav_data_loc, eq_surface_elev=-1e+6):
     # Assuming the grav_data_loc is a 2D array with three columns representing the
     # x, y, and z coordinates of the gravity data,
     # and round_avg_massSpacing is the average data spacing rounded to the nearest 100th, then
-    round_avg_massSpacing = 300*np.round(average_data_spacing/100)
+    round_avg_massSpacing = 100*np.round(average_data_spacing/100)
     # Calculate the bounds for X and Y
-    x_min = round_avg_massSpacing * np.floor((grav_data_loc[:,0].min() - 5*round_avg_massSpacing) / round_avg_massSpacing)
-    x_max = round_avg_massSpacing * np.ceil((grav_data_loc[:,0].max() + 5*round_avg_massSpacing) / round_avg_massSpacing)
-    y_min = round_avg_massSpacing * np.floor((grav_data_loc[:,1].min() - 5*round_avg_massSpacing) / round_avg_massSpacing)
-    y_max = round_avg_massSpacing * np.ceil((grav_data_loc[:,1].max() + 5*round_avg_massSpacing) / round_avg_massSpacing)
+    x_min = round_avg_massSpacing * np.floor((grav_data_loc[:,0].min() - 15*round_avg_massSpacing) / round_avg_massSpacing)
+    x_max = round_avg_massSpacing * np.ceil((grav_data_loc[:,0].max() + 15*round_avg_massSpacing) / round_avg_massSpacing)
+    y_min = round_avg_massSpacing * np.floor((grav_data_loc[:,1].min() - 15*round_avg_massSpacing) / round_avg_massSpacing)
+    y_max = round_avg_massSpacing * np.ceil((grav_data_loc[:,1].max() + 15*round_avg_massSpacing) / round_avg_massSpacing)
     
     # Create arrays for X and Y grid points
     x_grid = np.arange(x_min, x_max + round_avg_massSpacing, round_avg_massSpacing)
@@ -379,7 +383,7 @@ def export_to_surfer_grd7(masked_gridded_gravdata, output_filename, grid_crs=Non
     print(f"Valid data points: {len(valid_data)} out of {nx * ny} grid cells")
 
 def grav_at_planar_surf(grav_data_loc, mass_array, grid_mass_centres, eq_surface_elev,
-                        grid_res=0, height_from_max_data_elev=1e+6):
+                        grid_res=0, inflate_grid=0, height_from_max_data_elev=1e+6):
     """
     Vectorized version of grav_at_planar_surf function.
     
@@ -407,10 +411,10 @@ def grav_at_planar_surf(grav_data_loc, mass_array, grid_mass_centres, eq_surface
         raise ValueError('Positive grid resolutions only!')
     
     # Calculate grid bounds
-    x_min = grid_res * np.floor((grav_data_loc[:,0].min() - grid_res) / grid_res)
-    x_max = grid_res * np.ceil((grav_data_loc[:,0].max() + grid_res) / grid_res)
-    y_min = grid_res * np.floor((grav_data_loc[:,1].min() - grid_res) / grid_res)
-    y_max = grid_res * np.ceil((grav_data_loc[:,1].max() + grid_res) / grid_res)
+    x_min = grid_res * np.floor((grav_data_loc[:,0].min() - inflate_grid - grid_res) / grid_res)
+    x_max = grid_res * np.ceil((grav_data_loc[:,0].max() + inflate_grid + grid_res) / grid_res)
+    y_min = grid_res * np.floor((grav_data_loc[:,1].min() - inflate_grid - grid_res) / grid_res)
+    y_max = grid_res * np.ceil((grav_data_loc[:,1].max() + inflate_grid + grid_res) / grid_res)
     
     x_grid = np.arange(x_min, x_max + grid_res, grid_res)
     y_grid = np.arange(y_min, y_max + grid_res, grid_res)
